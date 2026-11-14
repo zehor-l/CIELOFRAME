@@ -92,7 +92,7 @@ footer{border-color:#ffffff20;color:#c9b8df}.modal{background:#080615ef}
 <main id="gallery"><div class="bar"><div><div class="eyebrow">The Cieloframe collection</div><h2>Your movie gallery</h2><p>Every film has a story. Every story deserves its frame.</p></div><button class="btn" onclick="addFilm()">＋ Add a film</button></div>
 <div class="controls"><input id="search" placeholder="Find a film…" oninput="render()"><select id="filter" onchange="render()"><option value="all">All films</option><option value="saved">Watchlist</option><option value="written">Pages I've written</option><option value="unwritten">Not written about yet</option></select><select id="categoryFilter" onchange="render()"><option value="all">All categories</option></select><select id="sort" onchange="render()"><option value="curated">Curated order</option><option value="az">Title A–Z</option><option value="year">Release year</option></select></div>
 <div class="grid" id="grid"></div></main>
-<footer>CIELOFRAME · Made By ZEE🌸</footer>
+<footer>Made By ZEE🌸</footer>
 <div class="modal" id="modal" onclick="if(event.target===this)closeJournal()"><div class="journal"><button class="close" onclick="closeJournal()">×</button><aside class="journal-side"><div id="jposter"></div><h2 id="jtitle"></h2><div class="jyear" id="jyear"></div><div class="category-chip" id="jcategory"></div>
 <label class="image-edit-label admin-only" for="posterUpload">Change movie poster</label>
 <input id="posterUpload" class="admin-only" type="file" accept="image/*" hidden onchange="uploadPoster(event)">
