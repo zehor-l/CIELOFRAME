@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIELOFRAME — A beautiful vision from above.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Caveat:wght@500;600&display=swap');
+:root{--bg:#100d20;--panel:#1b1730;--paper:#fff4e8;--muted:#c6b9d8;--gold:#ffd166;--wine:#ff5c8a;--line:#51436f;--cyan:#62e6df;--violet:#9b7bff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 12% 8%,#ff5c8a28,transparent 32%),radial-gradient(ellipse at 88% 20%,#6a5cff30,transparent 35%),radial-gradient(ellipse at 55% 85%,#21c7c026,transparent 38%),#100d20;color:var(--paper);font-family:'DM Sans',sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:radial-gradient(#ffffff18 1px,transparent 1px);background-size:27px 27px;opacity:.35}body:after{content:"";position:fixed;width:360px;height:360px;left:-170px;bottom:-180px;border-radius:50%;background:#ff5c8a22;filter:blur(45px);pointer-events:none;z-index:-1;animation:floatGlow 12s ease-in-out infinite alternate}@keyframes floatGlow{to{transform:translate(35vw,-18vh) scale(1.35);background:#62e6df25}}
+header{height:72px;position:sticky;top:0;z-index:5;background:#100e0ded;backdrop-filter:blur(14px);border-bottom:1px solid #ffffff18;display:flex;align-items:center;justify-content:space-between;padding:0 5vw}
+.logo{font:22px 'Playfair Display';letter-spacing:.2px}.logo span{color:var(--gold)}.logo small{display:block;font:9px 'DM Sans';letter-spacing:4px;color:#a9947c;margin-top:4px}
+nav{display:flex;gap:22px}nav a{font-size:12px;color:#c8b9a7;text-decoration:none;cursor:pointer}nav a:hover{color:var(--gold)}
+.hero{padding:65px 7vw 45px;min-height:315px;border-bottom:1px solid #ffffff18;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;right:8%;top:-25px;border:1px solid #d5a24c30;box-shadow:0 0 0 22px #d5a24c09,0 0 0 48px #d5a24c06,0 0 100px #d5a24c12;pointer-events:none}
+.eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:700}
+h1{font:clamp(43px,6vw,70px)/1.05 'Playfair Display';font-weight:500;margin:17px 0 12px;position:relative;z-index:1}
+.hero p{max-width:570px;color:#c3b29e;font-size:13px;line-height:1.85;position:relative;z-index:1}
+.script{font:23px Caveat;color:#dcb976;display:block;margin-top:17px;transform:rotate(-2deg)}
+main{padding:35px 5vw 80px}.bar{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:22px}.bar h2{font:30px 'Playfair Display';font-weight:500;margin:7px 0 0}.bar p{font-size:11px;color:#a99784;margin:7px 0 0}
+.controls{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 24px}.controls input,.controls select{background:#211b18;border:1px solid #514033;color:#e8d9c5;padding:11px 13px;border-radius:2px;font-size:12px;outline:none}.controls input{min-width:250px;flex:1}
+.btn{background:var(--gold);color:#21170d;border:1px solid var(--gold);padding:11px 16px;font-size:11px;font-weight:700;border-radius:2px;cursor:pointer}.btn.secondary{background:transparent;color:#e5d6c3;border-color:#765b43}.btn:hover{filter:brightness(1.08)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:25px 17px}
+.card{cursor:pointer;min-width:0}.poster{height:245px;position:relative;overflow:hidden;border-radius:3px;background:linear-gradient(145deg,#573b34,#191414);box-shadow:0 10px 24px #0009;transition:.25s}
+.poster img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}.card:hover .poster{transform:translateY(-5px);box-shadow:0 18px 30px #000b}.card:hover .poster img{transform:scale(1.035)}
+.poster .fallback{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:17px;font:24px 'Playfair Display';color:#f4e5cf;background:radial-gradient(circle at 50% 30%,#9b7355,#281d1a 78%)}.poster .fallback:after{content:"";position:absolute;inset:9px;border:1px solid #f1dfbd66}
+.card h3{font:16px 'Playfair Display';font-weight:500;margin:10px 2px 0}.card .year{font-size:10px;color:#9e8d7a;margin:4px 2px}
+.status-dot{position:absolute;right:9px;top:9px;background:#d5a24c;color:#21170d;font-size:9px;padding:5px 7px;border-radius:2px;z-index:2}
+.empty{padding:40px;border:1px dashed #5d4938;color:#b6a28d;text-align:center}
+footer{text-align:center;border-top:1px solid #ffffff18;padding:27px;color:#9b8874;font:20px Caveat}
+.modal{display:none;position:fixed;inset:0;z-index:10;background:#050404e8;overflow:auto;padding:22px 12px;backdrop-filter:blur(7px)}.modal.open{display:block}
+.journal{max-width:1000px;min-height:650px;margin:16px auto;background:#e9decc;color:#2c211c;box-shadow:0 25px 90px #000c;display:grid;grid-template-columns:290px 1fr;position:relative}
+.journal-side{background:#241b18;color:#f0e4d2;padding:24px;position:relative}.jposter{width:100%;height:350px;object-fit:cover;display:block;box-shadow:0 12px 30px #0008}.jposter-fallback{height:350px;display:grid;place-items:center;text-align:center;padding:20px;font:30px 'Playfair Display';background:linear-gradient(145deg,#87634d,#251817);border:1px solid #a78c6a}
+.journal-side h2{font:27px 'Playfair Display';font-weight:500;margin:17px 0 5px}.jyear{color:#c6a979;font-size:11px}.jcaption{font:19px Caveat;color:#d5b57e;margin-top:23px}
+.journal-main{padding:35px 40px 45px;min-width:0}.close{position:absolute;right:14px;top:10px;border:0;background:none;color:#f3e4d2;font-size:29px;cursor:pointer;z-index:3}
+.journal-main .topline{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #cdbda8;padding-bottom:13px}.journal-main .topline span{font-size:9px;letter-spacing:3px;color:#866d55;text-transform:uppercase}
+.journal-main h1{font:34px 'Playfair Display';color:#2d211b;margin:20px 0 8px}.hint{font:18px Caveat;color:#8c6b4c}
+.journal-main label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#7b6550;margin:19px 0 7px}
+.journal-main input,.journal-main textarea,.journal-main select{width:100%;border:1px solid #cdbda8;background:#f4ecdf;color:#30241d;padding:10px 12px;font:13px 'DM Sans';outline:none;border-radius:1px}
+.journal-main textarea{min-height:85px;resize:vertical;line-height:1.7}
+.editor{border:1px solid #cdbda8;background:#f4ecdf}.toolbar{display:flex;gap:5px;flex-wrap:wrap;padding:7px;border-bottom:1px solid #d8c9b5}.toolbar button{border:1px solid #d0c0ab;background:#e9decc;color:#49392e;padding:5px 8px;font-size:12px;cursor:pointer}.writearea{min-height:220px;padding:15px;outline:none;line-height:1.8;font:16px/1.8 'Caveat';color:#33261f}
+.writearea.font-serif{font-family:'Playfair Display',serif!important;font-size:16px}
+.writearea.font-sans{font-family:'DM Sans',sans-serif!important;font-size:14px}
+.font-choice{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0 4px;color:#7b6550;font-size:10px;text-transform:uppercase;letter-spacing:1.5px}
+.font-choice select{width:auto;min-width:170px;padding:8px 10px;border:1px solid #cdbda8;background:#fffdf9;color:#30241d;border-radius:7px;font:12px 'DM Sans'}.writearea:empty:before{content:"Start writing… Tell the story of watching this film. What did you notice? What did it leave behind?";color:#9c8a77}
+.taglist{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.tag{font-size:10px;background:#d9c7ae;color:#49382b;padding:5px 9px;display:flex;gap:7px;align-items:center}.tag button{border:0;background:none;color:#6b5140;cursor:pointer;padding:0}
+.addtag{display:flex;gap:7px;margin-top:9px}.addtag input{flex:1}.journal-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}.journal-actions .btn{font-size:10px}
+@media(max-width:700px){header{padding:0 16px}nav{gap:10px}nav a:nth-child(n+2){display:none}.hero{padding:48px 22px}.hero:after{right:-160px}main{padding:27px 16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}.poster{height:230px}.bar{align-items:start;flex-direction:column}.journal{grid-template-columns:1fr}.journal-side{display:grid;grid-template-columns:100px 1fr;gap:15px;align-items:center;padding:18px}.jposter,.jposter-fallback{height:135px;grid-row:span 2}.journal-side h2{font-size:22px;margin:0}.jcaption{display:none}.journal-main{padding:24px 18px}.journal-main h1{font-size:28px}}
+
+/* vivid cinema refresh */
+header{background:#100d20dd;border-bottom:1px solid #ffffff20;box-shadow:0 8px 35px #08061555}
+.logo span{color:var(--gold);text-shadow:0 0 22px #ffd16670}
+nav a{transition:color .2s,transform .2s}nav a:hover{color:var(--cyan);transform:translateY(-2px)}
+.hero{min-height:380px;padding-top:82px;background:linear-gradient(110deg,#211638aa,#25133c55 48%,#102e3a66);border-bottom:1px solid #ffffff20}
+.hero:before{content:"";position:absolute;width:420px;height:420px;right:7%;top:-100px;border-radius:50%;background:conic-gradient(from 20deg,#ff5c8a55,#ffd16633,#62e6df55,#9b7bff55,#ff5c8a55);filter:blur(42px);opacity:.72;animation:spinGlow 24s linear infinite}
+@keyframes spinGlow{to{transform:rotate(360deg)}}
+.hero:after{border-color:#ffd16666;box-shadow:0 0 0 22px #ff5c8a12,0 0 0 48px #62e6df10,0 0 100px #9b7bff30}
+.eyebrow{color:var(--cyan)}h1{text-shadow:0 8px 35px #0008}.hero p{color:#e0d5eb}.script{color:#ffd166}
+main{position:relative}.bar h2{color:#fff4e8}.bar p{color:#c6b9d8}
+.controls input,.controls select{background:#211b38;border:1px solid #68568b;color:#fff4e8;border-radius:10px;box-shadow:0 5px 18px #08061535}
+.controls input:focus,.controls select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #62e6df22}
+.btn{background:linear-gradient(110deg,#ffd166,#ff9f68);border:0;border-radius:999px;box-shadow:0 7px 22px #ff9f6833;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px #ff9f6855;filter:none}
+.btn.secondary{background:#ffffff0b;border:1px solid #9b7bff88;color:#f7eaff;box-shadow:none}
+.grid{gap:30px 19px}.card{animation:cardIn .55s both;animation-delay:calc(var(--i,0)*25ms)}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.poster{height:265px;border-radius:12px;background:linear-gradient(145deg,#ff5c8a,#5b3c9c 55%,#1b6d79);box-shadow:0 12px 28px #05030c88;isolation:isolate}
+.poster:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,#08061500 55%,#08061588);opacity:.6}
+.poster img{z-index:1}.poster .fallback{z-index:0;background:radial-gradient(circle at 25% 20%,#ffd166,#ff5c8a 38%,#563b9c 78%);font-size:25px;text-shadow:0 2px 14px #24102b;letter-spacing:.2px}
+.poster .fallback:before{content:"✦";position:absolute;top:17px;right:19px;font:24px Georgia;color:#fff8}
+.poster .fallback:after{border:1px solid #fff9;border-radius:7px;inset:10px}
+.card:hover .poster{transform:translateY(-7px) rotate(-.6deg);box-shadow:0 20px 38px #05030caa,0 0 0 1px #ffd16666}
+.card h3{color:#fff4e8}.card .year{color:#b9a9d0}.status-dot{background:var(--gold);border-radius:999px}
+.empty{border:1px dashed #8d77b8;border-radius:14px;color:#d4c4e7}
+footer{border-color:#ffffff20;color:#c9b8df}.modal{background:#080615ef}
+.journal{border-radius:15px;overflow:hidden;background:#fff4e8;box-shadow:0 25px 90px #000e}
+.journal-side{background:radial-gradient(circle at 10% 0%,#ff5c8a55,transparent 45%),linear-gradient(155deg,#24163d,#111e35);color:#fff4e8}
+.jposter,.jposter-fallback{border-radius:9px}.jposter-fallback{background:linear-gradient(145deg,#ffd166,#ff5c8a 45%,#6547ad);color:#fff}
+.jyear{color:#62e6df}.jcaption{color:#ffd166}.close{background:#ffffff18;border-radius:50%;width:38px;height:38px}
+.journal-main{background:linear-gradient(135deg,#fff8ef,#f5e9ff);color:#30243b}.journal-main h1{color:#30243b}
+.journal-main input,.journal-main textarea,.journal-main select{border-radius:8px;background:#fffdf9;border-color:#d9c9e8}
+.editor{border-radius:9px;overflow:hidden;background:#fffdf9}.toolbar button{border-radius:6px}.tag{border-radius:999px;background:#e8ddff}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+
+
+.category-chip{display:inline-block;margin-top:8px;padding:5px 10px;border:1px solid #62e6df66;border-radius:999px;color:#62e6df;font-size:10px;letter-spacing:.5px}
+.card .category-label{display:inline-block;margin:5px 2px 0;padding:4px 8px;border-radius:999px;background:#9b7bff25;border:1px solid #9b7bff66;color:#d8caff;font-size:9px}
+.image-edit-label{display:block;margin-top:15px;padding:9px 11px;text-align:center;border:1px solid #9b7bff88;border-radius:999px;color:#f7eaff;font-size:10px;cursor:pointer}
+.image-edit-label:hover{background:#ffffff12}
+.poster-reset{width:100%;margin-top:7px;padding:8px 10px!important;font-size:9px!important}
+#categoryFilter{background:#211b38;border:1px solid #68568b;color:#fff4e8;padding:11px 13px;border-radius:10px}
+@media(max-width:700px){.journal-side .image-edit-label,.journal-side .poster-reset{grid-column:1/-1}}
+
+.film-border{position:fixed;top:0;bottom:0;width:24px;z-index:1;pointer-events:none;opacity:.34;
+ background:linear-gradient(90deg,#080615 0 5px,#ffffff12 5px 6px,#171326 6px 18px,#ffffff10 18px 19px,#080615 19px);
+}
+.film-border:before{content:"";position:absolute;inset:0 6px;
+ background:repeating-linear-gradient(to bottom,transparent 0 16px,#d9cce522 16px 30px,transparent 30px 74px);
+}
+.film-border:after{content:"";position:absolute;inset:0;border-left:1px solid #ffffff12;border-right:1px solid #ffffff12}
+.film-left{left:0}.film-right{right:0;transform:scaleX(-1)}
+@media(max-width:700px){.film-border{width:12px;opacity:.23}.film-border:before{inset:0 3px;background:repeating-linear-gradient(to bottom,transparent 0 13px,#d9cce522 13px 23px,transparent 23px 62px)}}
+</style><style>.admin-only{display:none}.admin-only[style*='display:']{}</style></head>
+<body><div class="film-border film-left" aria-hidden="true"></div><div class="film-border film-right" aria-hidden="true"></div>
+<header><div class="logo">CIELO<span>FRAME</span><small>A BEAUTIFUL VISION FROM ABOVE</small></div><nav><a onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">The gallery</a><a onclick="setFilter('saved')">Watchlist</a><a onclick="setFilter('written')">My writing</a></nav></header>
+<section class="hero"><div class="eyebrow">A little place for the stories that stay</div><h1>Some films stay<br>with you.</h1><p>A personal cinema archive for the movies that feel like home. Wander through familiar stories, revisit the scenes that comfort you.</p><span class="script">“For the love of stories, and everything they make us feel.”</span></section>
+<main id="gallery"><div class="bar"><div><div class="eyebrow">The Cieloframe collection</div><h2>Your movie gallery</h2><p>Every film has a story. Every story deserves its frame.</p></div><button class="btn" onclick="addFilm()">＋ Add a film</button></div>
+<div class="controls"><input id="search" placeholder="Find a film…" oninput="render()"><select id="filter" onchange="render()"><option value="all">All films</option><option value="saved">Watchlist</option><option value="written">Pages I've written</option><option value="unwritten">Not written about yet</option></select><select id="categoryFilter" onchange="render()"><option value="all">All categories</option></select><select id="sort" onchange="render()"><option value="curated">Curated order</option><option value="az">Title A–Z</option><option value="year">Release year</option></select></div>
+<div class="grid" id="grid"></div></main>
+<footer>Made By ZEE🌸</footer>
+<div class="modal" id="modal" onclick="if(event.target===this)closeJournal()"><div class="journal"><button class="close" onclick="closeJournal()">×</button><aside class="journal-side"><div id="jposter"></div><h2 id="jtitle"></h2><div class="jyear" id="jyear"></div><div class="category-chip" id="jcategory"></div>
+<label class="image-edit-label admin-only" for="posterUpload">Change movie poster</label>
+<input id="posterUpload" class="admin-only" type="file" accept="image/*" hidden onchange="uploadPoster(event)">
+<button class="btn secondary poster-reset admin-only" type="button" onclick="resetPoster()">Use automatic poster</button>
+<div class="jcaption">a little space to remember this one…</div></aside><section class="journal-main"><div class="topline"><span>Your film journal</span><span id="entryDate"></span></div><h1 id="heading"></h1><div class="hint">A page for your thoughts, feelings & favourite details.</div>
+<label class="admin-only">Movie category</label><input id="movieCategory" placeholder="e.g. Romance, Thriller, Animation" list="categorySuggestions"><datalist id="categorySuggestions"></datalist>
+<label>Give this entry a title (optional)</label><input id="entryTitle" placeholder="e.g. A film that felt like coming home">
+<label>Your diary / blog entry</label><div class="font-choice"><span>Writing style</span><select id="writingFont" aria-label="Choose journal writing font" onchange="changeWritingFont(this.value)"><option value="serif">Classic literary</option><option value="sans">Clean modern</option></select></div><div class="editor"><div class="toolbar admin-only"><button onclick="format('bold')"><b>B</b></button><button onclick="format('italic')"><i>I</i></button><button onclick="format('underline')"><u>U</u></button><button onclick="insertText(' ❤️ ')">♡</button><button onclick="insertText(' ✨ ')">✧</button><button onclick="insertText(' 🥹 ')">🥹</button><button onclick="insertText(' 🎞️ ')">🎞</button></div><div id="bodyText" class="writearea" contenteditable="true"></div></div>
+<label>Other little notes (optional)</label><textarea id="notes" placeholder="Favourite scene, a line you want to remember, who you watched it with…"></textarea>
+<label>Your own labels / categories</label><div class="note" style="font:12px 'DM Sans';color:#8c7964">Make your own labels and reuse them on other films. Nothing is pre-categorized.</div><div class="taglist" id="taglist"></div><div class="addtag"><input id="tagInput" placeholder="Create or add a label…"><button class="btn secondary" onclick="addTag()">Add label</button></div>
+<label>Personal status</label><select id="status"><option value="none">Not marked</option><option value="saved">Save for later</option><option value="watched">I've watched it</option></select>
+<div class="journal-actions"><button class="btn admin-only" onclick="saveJournal()">Save my page</button><button class="btn secondary" onclick="closeJournal()">Close</button><button class="btn secondary admin-only" onclick="deleteFilm()">Remove film</button></div>
+</section></div></div>
+<script>
+/* CIELOFRAME cloud database connection */
+const SUPABASE_URL='https://epmrnnhgkttuzpbsxgzp.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_f9GKg-XsmJd6rzlAEHcviw_ciLwqGAC';
+const ADMIN_UID='59ca3ca2-64be-4c1d-b1d7-d622ca6c9875';
+let sbSession=null;
+try{sbSession=JSON.parse(localStorage.getItem('cieloframeSupabaseSession')||'null')}catch(e){}
+let cloudReady=false,cloudLoading=false;
+function sbHeaders(extra={}){return {'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+(sbSession?.access_token||SUPABASE_ANON_KEY),'Content-Type':'application/json',...extra}}
+async function refreshAdminSession(){
+ if(!sbSession?.refresh_token)return false;
+ const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=refresh_token',{
+  method:'POST',
+  headers:{'apikey':SUPABASE_ANON_KEY,'Content-Type':'application/json'},
+  body:JSON.stringify({refresh_token:sbSession.refresh_token})
+ });
+ const raw=await r.text();let data=null;
+ if(raw){try{data=JSON.parse(raw)}catch(e){}}
+ if(!r.ok||!data?.access_token||data.user?.id!==ADMIN_UID){
+  sbSession=null;localStorage.removeItem('cieloframeSupabaseSession');updateAdminUI();
+  return false;
+ }
+ sbSession=data;localStorage.setItem('cieloframeSupabaseSession',JSON.stringify(data));
+ return true;
+}
+async function sbRequest(path,opts={},retry=true){
+ const r=await fetch(SUPABASE_URL+path,{...opts,headers:{...sbHeaders(),...(opts.headers||{})}});
+ const raw=await r.text();let data=null;
+ if(raw){try{data=JSON.parse(raw)}catch(e){data=null}}
+ if(!r.ok&&retry&&r.status===401&&sbSession?.refresh_token){
+  if(await refreshAdminSession())return sbRequest(path,opts,false);
+ }
+ if(!r.ok){
+  const msg=data?.message||data?.msg||data?.error_description||data?.error||raw||('Supabase request failed ('+r.status+')');
+  throw new Error(msg);
+ }
+ return data;
+}
+function isAdmin(){return !!sbSession?.access_token&&sbSession.user?.id===ADMIN_UID}
+function updateAdminUI(){
+ const link=document.getElementById('authLink');if(link)link.textContent=isAdmin()?'Admin logout':'Admin login';
+ const add=document.querySelector('.bar .btn');if(add)add.style.display=isAdmin()?'':'none';
+ document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdmin()?(el.tagName==='LABEL'?'block':'inline-block'):'none');
+}
+async function loadCloudMovies(){
+ cloudLoading=true;
+ try{
+  const rows=await sbRequest('/rest/v1/movies?select=*&order=id.asc',{headers:{'Accept':'application/json'}});
+  films=rows.map(r=>({id:Number(r.id),title:r.title||'',year:r.year||'',wiki:r.wiki||r.title||'',poster:r.poster||'',category:r.category||'',status:r.status||'none',entryTitle:r.entry_title||'',body:r.body||'',notes:r.notes||'',tags:r.tags||[],posterLoading:false,posterTried:!r.poster}));
+  cloudReady=true;storeLocalOnly();render();
+ }catch(e){console.error(e);alert('Could not load the online movie collection: '+e.message)}
+ finally{cloudLoading=false}
+}
+function storeLocalOnly(){localStorage.setItem('cinemaJournalV2',JSON.stringify(films))}
+async function saveCloudMovie(m){
+ const row={id:m.id,title:m.title,year:String(m.year||''),wiki:m.wiki||m.title,poster:m.poster||'',category:m.category||'',status:m.status||'none',entry_title:m.entryTitle||'',body:m.body||'',notes:m.notes||'',tags:m.tags||[],updated_at:new Date().toISOString()};
+ const exists=await sbRequest('/rest/v1/movies?id=eq.'+encodeURIComponent(m.id),{method:'GET'});
+ if(exists.length)await sbRequest('/rest/v1/movies?id=eq.'+encodeURIComponent(m.id),{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify(row)});
+ else await sbRequest('/rest/v1/movies',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(row)});
+}
+async function deleteCloudMovie(id){await sbRequest('/rest/v1/movies?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}})}
+async function adminAction(){
+ if(isAdmin()){if(confirm('Log out of CIELOFRAME admin?')){sbSession=null;localStorage.removeItem('cieloframeSupabaseSession');updateAdminUI();render()}return}
+ const email=prompt('Admin email:');if(!email)return;const password=prompt('Admin password:');if(!password)return;
+ try{
+  const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SUPABASE_ANON_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+  const d=await r.json();if(!r.ok)throw new Error(d.msg||d.message||d.error_description||'Login failed');
+  if(d.user?.id!==ADMIN_UID)throw new Error('This account is not authorised to manage CIELOFRAME.');
+  sbSession=d;localStorage.setItem('cieloframeSupabaseSession',JSON.stringify(d));updateAdminUI();render();alert('You are signed in as the CIELOFRAME admin.');
+ }catch(e){alert('Admin login failed: '+e.message)}
+}
+const initial=[
+["Amélie",2001,"Amélie"],["About Time",2013,"About Time"],["The Holiday",2006,"The Holiday"],["10 Things I Hate About You",1999,"10 Things I Hate About You"],["Notting Hill",1999,"Notting Hill"],["When Harry Met Sally...",1989,"When Harry Met Sally"],["Pride & Prejudice",2005,"Pride and Prejudice 2005 film"],["Little Women",2019,"Little Women 2019 film"],["The Secret Life of Walter Mitty",2013,"The Secret Life of Walter Mitty"],["The Grand Budapest Hotel",2014,"The Grand Budapest Hotel"],["Fantastic Mr. Fox",2009,"Fantastic Mr Fox"],["Coraline",2009,"Coraline film"],["Kubo and the Two Strings",2016,"Kubo and the Two Strings"],["Whisper of the Heart",1995,"Whisper of the Heart"],["Only Yesterday",1991,"Only Yesterday film"],["The Tale of the Princess Kaguya",2013,"The Tale of the Princess Kaguya"],["Your Name",2016,"Your Name 2016 film"],["The Garden of Words",2013,"The Garden of Words"],["Little Forest",2018,"Little Forest 2018 Korean film"],["Perfect Days",2023,"Perfect Days 2023 film"],["Nomadland",2020,"Nomadland"],["The Lunchbox",2013,"The Lunchbox 2013 film"],["The Farewell",2019,"The Farewell 2019 film"],["The Holdovers",2023,"The Holdovers"],["The Intouchables",2011,"The Intouchables"],["Hunt for the Wilderpeople",2016,"Hunt for the Wilderpeople"],["Paddington 2",2017,"Paddington 2"],["Sing Street",2016,"Sing Street"],["School of Rock",2003,"School of Rock"],["The Nice Guys",2016,"The Nice Guys"],["Game Night",2018,"Game Night 2018 film"],["The Hangover",2009,"The Hangover"],["The Mitchells vs. the Machines",2021,"The Mitchells vs the Machines"],["The Boy and the Heron",2023,"The Boy and the Heron"],["The Handmaiden",2016,"The Handmaiden 2016 film"],["Forgotten",2017,"Forgotten 2017 South Korean film"],["The Invisible Guest",2016,"The Invisible Guest 2016 film"],["Knives Out",2019,"Knives Out"],["Shutter Island",2010,"Shutter Island"],["The Prestige",2006,"The Prestige 2006 film"],["Parasite",2019,"Parasite 2019 film"],["The Truman Show",1998,"The Truman Show"],["Eternal Sunshine of the Spotless Mind",2004,"Eternal Sunshine of the Spotless Mind"],["Palm Springs",2020,"Palm Springs 2020 film"],["Crazy, Stupid, Love.",2011,"Crazy Stupid Love"],["Love Actually",2003,"Love Actually"],["You've Got Mail",1998,"You've Got Mail"],["13 Going on 30",2004,"13 Going on 30"],["Bridget Jones's Diary",2001,"Bridget Jones's Diary"],["How to Lose a Guy in 10 Days",2003,"How to Lose a Guy in 10 Days"],["Legally Blonde",2001,"Legally Blonde"],["Clueless",1995,"Clueless 1995 film"],["The Proposal",2009,"The Proposal 2009 film"],["Serendipity",2001,"Serendipity 2001 film"],["Sleepless in Seattle",1993,"Sleepless in Seattle"],["While You Were Sleeping",1995,"While You Were Sleeping 1995 film"],["Roman Holiday",1953,"Roman Holiday"],["La La Land",2016,"La La Land"],["Before Sunrise",1995,"Before Sunrise"],["The Notebook",2004,"The Notebook 2004 film"],["Flipped",2010,"Flipped 2010 film"],["The Map of Tiny Perfect Things",2021,"The Map of Tiny Perfect Things"],["Midnight in Paris",2011,"Midnight in Paris"],["The Artist",2011,"The Artist 2011 film"],["The Grand Seduction",2013,"The Grand Seduction"],["The Fundamentals of Caring",2016,"The Fundamentals of Caring"],["The Big Sick",2017,"The Big Sick"],["Miss Granny",2014,"Miss Granny 2014 film"],["Extreme Job",2019,"Extreme Job 2019 film"],["Midnight Runners",2017,"Midnight Runners"],["Twenty",2015,"Twenty 2015 South Korean film"],["The Beauty Inside",2015,"The Beauty Inside 2015 film"],["My Sassy Girl",2001,"My Sassy Girl 2001 film"],["Little Miss Sunshine",2006,"Little Miss Sunshine"],["The Royal Tenenbaums",2001,"The Royal Tenenbaums"],["Frances Ha",2012,"Frances Ha"],["Brooklyn",2015,"Brooklyn 2015 film"],["The Perks of Being a Wallflower",2012,"The Perks of Being a Wallflower"],["Dead Poets Society",1989,"Dead Poets Society"],["The Secret Garden",1993,"The Secret Garden 1993 film"],["The Princess Bride",1987,"The Princess Bride"],["The Muppet Movie",1979,"The Muppet Movie"],["The Apartment",1960,"The Apartment 1960 film"],["Some Like It Hot",1959,"Some Like It Hot"],["The Shop Around the Corner",1940,"The Shop Around the Corner"],["The Before Trilogy: Before Sunset",2004,"Before Sunset"],["The Worst Person in the World",2021,"The Worst Person in the World"],["20th Century Women",2016,"20th Century Women"],["The Florida Project",2017,"The Florida Project"],["The Straight Story",1999,"The Straight Story"],["The Station Agent",2003,"The Station Agent"],["The Way Way Back",2013,"The Way Way Back"],["Chef",2014,"Chef 2014 film"],["Julie & Julia",2009,"Julie and Julia"],["The Hundred-Foot Journey",2014,"The Hundred-Foot Journey"],["The Grand Budapest Hotel",2014,"The Grand Budapest Hotel"]
+];
+let films=JSON.parse(localStorage.getItem('cinemaJournalV2')||'null');
+if(!films)films=initial.map((x,i)=>({id:i+1,title:x[0],year:x[1],wiki:x[2],poster:'',category:'',status:'none',entryTitle:'',body:'',notes:'',tags:[]}));
+films.forEach(m=>{if(typeof m.category!=='string')m.category='';});
+let current=null,selectedTags=[];
+function store(){storeLocalOnly()}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function updateCategoryFilter(){
+ const sel=document.getElementById('categoryFilter'),chosen=sel.value;
+ const cats=[...new Set(films.map(m=>(m.category||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+ sel.innerHTML='<option value="all">All categories</option>'+cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+ sel.value=cats.includes(chosen)?chosen:'all';
+ const dl=document.getElementById('categorySuggestions');
+ if(dl)dl.innerHTML=cats.map(c=>`<option value="${esc(c)}"></option>`).join('');
+}
+function render(){
+ updateAdminUI();
+ updateCategoryFilter();
+ let q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value,s=document.getElementById('sort').value,c=document.getElementById('categoryFilter').value;
+ let list=films.filter(m=>(m.title+' '+m.year+' '+(m.category||'')).toLowerCase().includes(q)&&(c==='all'||(m.category||'')===c)&&(f==='all'||(f==='saved'&&m.status==='saved')||(f==='written'&&m.body.replace(/<[^>]*>/g,'').trim())||(f==='unwritten'&&!m.body.replace(/<[^>]*>/g,'').trim())));
+ if(s==='az')list.sort((a,b)=>a.title.localeCompare(b.title));if(s==='year')list.sort((a,b)=>(a.year||0)-(b.year||0));
+ document.getElementById('grid').innerHTML=list.length?list.map(m=>`<article class="card" onclick="openJournal(${m.id})"><div class="poster" id="poster-${m.id}">${m.status==='saved'?'<span class="status-dot">SAVED</span>':''}<div class="fallback" aria-hidden="true">${esc(m.title)}</div>${m.poster?`<img loading="lazy" decoding="async" src="${esc(m.poster)}" alt="${esc(m.title)} poster" onerror="this.remove();m.poster='';store()">`:''}</div><h3>${esc(m.title)}</h3>${m.category?`<div class="category-label">${esc(m.category)}</div>`:''}<div class="year">${esc(m.year||'')}</div></article>`).join(''):'<div class="empty">No films found in this little collection.</div>';
+ list.forEach((m,i)=>{const card=document.querySelector(`#poster-${m.id}`)?.closest('.card');if(card)card.style.setProperty('--i',i%16);if(!m.poster)loadPoster(m)});
+}
+const posterQueue=[];let posterWorkers=0;
+function loadPoster(m){
+ if(m.poster||m.posterLoading||m.posterTried)return;
+ m.posterLoading=true;posterQueue.push(m);runPosterQueue();
+}
+async function findPoster(m){
+ const queries=[m.wiki||m.title,m.title,m.title+' film poster'];
+ for(const query of [...new Set(queries)]){
+  try{
+   const api='https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(query+' film')+'&gsrnamespace=0&gsrlimit=8&prop=pageimages|info&inprop=url&piprop=thumbnail&pithumbsize=900&format=json&origin=*';
+   const r=await fetch(api,{headers:{'Accept':'application/json'}});
+   if(!r.ok)continue;
+   const d=await r.json();
+   const pages=Object.values(d.query?.pages||{}).sort((x,y)=>{
+    const ax=(x.title||'').toLowerCase().includes(m.title.toLowerCase())?1:0;
+    const ay=(y.title||'').toLowerCase().includes(m.title.toLowerCase())?1:0;
+    return ay-ax;
+   });
+   for(const page of pages){
+    const src=page.thumbnail?.source;
+    if(src&&!/flag|logo|icon/i.test(src)&&!/disambiguation/i.test(page.title||''))return src;
+   }
+  }catch(e){}
+ }
+ try{
+  const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(m.wiki||m.title),{headers:{'Accept':'application/json'}});
+  if(r.ok){const d=await r.json();const src=d.originalimage?.source||d.thumbnail?.source;if(src)return src;}
+ }catch(e){}
+ return '';
+}
+function runPosterQueue(){
+ while(posterWorkers<4&&posterQueue.length){
+  const m=posterQueue.shift();posterWorkers++;
+  (async()=>{
+   try{
+    const src=await findPoster(m);
+    if(src){
+     m.poster=src;m.posterTried=false;store();
+     const el=document.getElementById('poster-'+m.id);
+     if(el){
+      const im=document.createElement('img');im.loading='lazy';im.decoding='async';im.alt=m.title+' poster';
+      im.onerror=()=>{im.remove();m.poster='';m.posterTried=true;store();};
+      im.src=src;el.appendChild(im);
+      const side=document.getElementById('jposter');
+      if(current?.id===m.id&&side&&!side.querySelector('img'))side.innerHTML=`<img class="jposter" src="${esc(src)}" alt="${esc(m.title)} poster">`;
+     }
+    }else m.posterTried=true;
+   }catch(e){m.posterTried=true;}
+   finally{m.posterLoading=false;posterWorkers--;store();runPosterQueue();}
+  })();
+ }
+}
+function setFilter(v){document.getElementById('filter').value=v;render();document.getElementById('gallery').scrollIntoView({behavior:'smooth'})}
+function currentWritingFont(){return localStorage.getItem('cieloframeWritingFont')||'serif'}
+function changeWritingFont(font){
+ if(!['serif','sans'].includes(font))font='serif';
+ localStorage.setItem('cieloframeWritingFont',font);
+ const area=document.getElementById('bodyText');
+ if(area){area.classList.toggle('font-serif',font==='serif');area.classList.toggle('font-sans',font==='sans')}
+}
+function openJournal(id){
+ current=films.find(x=>x.id===id);if(!current)return;selectedTags=[...(current.tags||[])];
+ document.getElementById('jtitle').textContent=current.title;
+ document.getElementById('jyear').textContent=current.year||'';
+ document.getElementById('jcategory').textContent=current.category||'Uncategorised';
+ document.getElementById('heading').textContent=current.title;
+ let side=document.getElementById('jposter');
+ side.innerHTML=`<div class="jposter-fallback">${esc(current.title)}</div>`+(current.poster?`<img class="jposter" src="${esc(current.poster)}" alt="${esc(current.title)} poster" onerror="this.remove()">`:'');
+ document.getElementById('movieCategory').value=current.category||'';document.getElementById('movieCategory').readOnly=!isAdmin();
+ document.getElementById('entryTitle').value=current.entryTitle||'';document.getElementById('entryTitle').readOnly=!isAdmin();
+ document.getElementById('bodyText').innerHTML=current.body||'';document.getElementById('bodyText').contentEditable=isAdmin()?'true':'false';document.getElementById('writingFont').value=currentWritingFont();changeWritingFont(currentWritingFont());
+ document.getElementById('notes').value=current.notes||'';document.getElementById('notes').readOnly=!isAdmin();
+ document.getElementById('status').value=current.status||'none';document.getElementById('status').disabled=!isAdmin();
+ document.getElementById('entryDate').textContent=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+ renderTags();document.getElementById('modal').classList.add('open');
+}
+function closeJournal(){document.getElementById('modal').classList.remove('open')}
+function format(cmd){document.getElementById('bodyText').focus();document.execCommand(cmd,false,null)}
+function insertText(t){document.getElementById('bodyText').focus();document.execCommand('insertText',false,t)}
+function renderTags(){document.getElementById('taglist').innerHTML=selectedTags.map(t=>`<span class="tag">${esc(t)} <button onclick="removeTag(${JSON.stringify(t).replace(/"/g,'&quot;')})">×</button></span>`).join('')}
+function addTag(){let inp=document.getElementById('tagInput'),t=inp.value.trim();if(t&&!selectedTags.includes(t))selectedTags.push(t);inp.value='';renderTags()}
+function removeTag(t){selectedTags=selectedTags.filter(x=>x!==t);renderTags()}
+async function saveJournal(){if(!current||!isAdmin())return;current.category=document.getElementById('movieCategory').value.trim();current.entryTitle=document.getElementById('entryTitle').value;current.body=document.getElementById('bodyText').innerHTML;current.notes=document.getElementById('notes').value;current.status=document.getElementById('status').value;current.tags=[...selectedTags];try{await saveCloudMovie(current);store();render();closeJournal();alert('Saved to the CIELOFRAME website.')}catch(e){alert('Could not save: '+e.message)}}
+async function uploadPoster(event){
+ const file=event.target.files?.[0];if(!file||!current||!isAdmin())return;
+ if(!file.type.startsWith('image/')){alert('Please choose an image file.');return;}
+ if(file.size>5*1024*1024){alert('Please choose an image smaller than 5 MB.');return;}
+ try{
+  const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'-');
+  const objectPath=ADMIN_UID+'/'+Date.now()+'-'+safe;
+  const r=await fetch(SUPABASE_URL+'/storage/v1/object/movie-posters/'+objectPath,{method:'POST',headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+sbSession.access_token,'Content-Type':file.type},body:file});
+  if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.message||'Poster upload failed ('+r.status+')')}
+  current.poster=SUPABASE_URL+'/storage/v1/object/public/movie-posters/'+objectPath;current.posterTried=false;
+  await saveCloudMovie(current);store();openJournal(current.id);render();
+ }catch(e){alert('Could not upload poster: '+e.message)}finally{event.target.value=''}
+}
+async function resetPoster(){
+ if(!current||!isAdmin())return;current.poster='';current.posterTried=false;try{await saveCloudMovie(current);store();openJournal(current.id);render();loadPoster(current)}catch(e){alert('Could not reset poster: '+e.message)}
+}
+async function addFilm(){
+ if(!isAdmin()){alert('Only the CIELOFRAME admin can add films.');return;}
+ const title=prompt('What is the movie called?');
+ if(!title||!title.trim())return;
+ const clean=title.trim();
+ const existing=films.find(x=>x.title.toLowerCase()===clean.toLowerCase());
+ if(existing){openJournal(existing.id);return;}
+ const year=prompt('Release year (optional):')||'';
+ const category=prompt('Movie category (optional), e.g. Romance, Thriller, Animation:')||'';
+ const m={id:Date.now(),title:clean,year:year.trim(),wiki:clean,poster:'',posterTried:false,category:category.trim(),status:'none',entryTitle:'',body:'',notes:'',tags:[]};
+ films.unshift(m);try{await saveCloudMovie(m);store();render();openJournal(m.id);loadPoster(m)}catch(e){films=films.filter(x=>x.id!==m.id);alert('Could not add film: '+e.message)}
+}
+async function deleteFilm(){if(!current||!isAdmin())return;if(confirm('Remove this film and its journal page?')){try{await deleteCloudMovie(current.id);films=films.filter(x=>x.id!==current.id);store();render();closeJournal()}catch(e){alert('Could not remove film: '+e.message)}}}
+document.addEventListener('keydown',e=>{
+ if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==='a'){
+  e.preventDefault();
+  adminAction();
+ }
+});
+render();updateAdminUI();
+(async()=>{
+ if(sbSession?.refresh_token)await refreshAdminSession();
+ updateAdminUI();
+ await loadCloudMovies();
+})();
+</script></body></html>
